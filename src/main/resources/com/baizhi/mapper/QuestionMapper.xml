@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.QuestionDAO">
+
+    <!--    //根据question返回Question
+        public Question selectByquestion(String question);-->
+    <select id="selectByquestion" resultType="Question" parameterType="String">
+        select * from Question where question=#{0}
+    </select>
+
+    <!--    //推荐(最热)
+        public Question questionTuiJian();-->
+    <select id="questionTuiJian" resultType="Question">
+        select * from
+            (select rownum r,p3.* from(
+                                          select count(*) c,question  from (
+                                                                               select p1.* from question p1
+                                                                                                    inner join answer s1
+                                                                                                               on s1.q_id=p1.q_id )p2
+                                          group by question
+                                          order by c desc) p3)
+        where r=1
+    </select>
+
+    <!--    //关注
+        public List<Question> questionGuanZhu(String u_id);-->
+    <select id="questionGuanZhu" parameterType="String" resultType="Question">
+        select * from question q
+                          inner join z_user_question z
+                                     on q.q_id=z.q_id
+                          inner join z_user u
+                                     on u.u_id=z.u_id
+        where u_id=#{0} and collect=1
+    </select>
+
+    <!--    //添加问题
+        public void insertQuestion(Question question);-->
+    <insert id="insertQuestion" parameterType="Question">
+        insert into Question values (#{q_id},#{question},#{q_counts},#{u_id})
+    </insert>
+
+
+    <!--    //模糊查询
+        public List<Question> queryQuestion(String str);-->
+    <select id="queryQuestion" resultType="Question">
+        select * from Question where question like '%${str}%'
+    </select>
+
+</mapper>

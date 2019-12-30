@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.Z_user_AnswerDAO">
+
+    <!--    //根据u_id和a_id返回Z_user_Answer
+        public Z_user_Answer selectByU_idAndA_id(@Param("u_id") String u_id, @Param("a_id") String a_id);-->
+    <select id="selectByU_idAndA_id" resultType="Z_user_Answer">
+        select * from Z_user_Answer where u_id=#{u_id} and a_id=#{a_id}
+    </select>
+
+    <!--    //创建用户和回答的联系
+        public void insertUserAndAnswer(Z_user_Answer za);-->
+    <insert id="insertUserAndAnswer" parameterType="Z_user_Answer">
+        insert into Z_user_Answer values (#{ua_id},#{u_id},#{a_id},#{likes})
+    </insert>
+
+    <!--    //返回点赞次数
+        public Integer showAnswerCount(String a_id);-->
+    <select id="showAnswerCount" resultType="Integer">
+        select count(*) from Z_user_Answer where a_id=#{0} and likes=1
+    </select>
+
+    <!--    //更改点赞状态
+        public void updateZ_user_Answer(Z_user_Answer za);-->
+    <update id="updateZ_user_Answer" parameterType="Z_user_Answer">
+        update Z_user_Answer set likes=#{likes} where ua_id=#{ua_id}
+    </update>
+
+</mapper>

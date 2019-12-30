@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.PhotoDAO">
+
+    <!--    //图片展示
+        public List<Photo> showAllPhoto(Integer u_id);-->
+    <select id="showAllPhoto" resultType="Photo">
+        select * from Photo where u_id=#{0}
+    </select>
+    <!--    //图片上传
+        public void insertPhoto(Photo photo);-->
+    <insert id="insertPhoto" parameterType="Photo">
+        insert into Photo values (#{p_id},#{p_name},#{u_id},#{p_count})
+    </insert>
+    <!--    //图片删除
+        public void deletePhoto(Integer p_id);-->
+    <delete id="deletePhoto" parameterType="String">
+        delete from Photo where p_id=#{0}
+    </delete>
+    <!--    //获取图片
+        public Photo getPhoto(Integer p_id);-->
+    <select id="getPhoto" resultType="Photo" parameterType="String">
+        select * from Photo where p_id=#{0}
+    </select>
+    <!--    //图片下载加1
+        public void updatePhoto(Photo photo);-->
+    <update id="updatePhoto" parameterType="Photo">
+        update Photo set p_count=#{p_count} where p_id=#{p_id}
+    </update>
+</mapper>

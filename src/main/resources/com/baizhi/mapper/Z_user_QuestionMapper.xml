@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.Z_user_QuestionDAO">
+
+    <!--    //根据u_id和a_id返回Z_user_Question
+        public Z_user_Question selectByU_idAndQ_id(String u_id,String a_id);-->
+    <select id="selectByU_idAndQ_id" resultType="Z_user_Question">
+        select * from Z_user_Question where u_id=#{u_id} and q_id=#{q_id}
+    </select>
+
+    <!--    //更改点赞状态
+        public void updateZ_user_Question(Integer likes);-->
+    <update id="updateZ_user_Question" parameterType="Z_user_Question">
+        update Z_user_Question set likes=#{likes} where uq_id=#{uq_id}
+    </update>
+
+    <!--    //更改收藏状态
+        public void updateZ_user_Questioncollect(Z_user_Question uq);-->
+    <update id="updateZ_user_Questioncollect"  parameterType="Z_user_Question">
+        update Z_user_Question set collect=#{collect} where uq_id=#{uq_id}
+    </update>
+
+    <!--    //问题查询被点赞的次数
+        public Integer selectLikesCount(String q_id);-->
+    <select id="selectLikesCount" resultType="Integer">
+        select count(*) from Z_user_Question where q_id=#{0} and likes=1
+    </select>
+
+    <!--    //展示收藏状态
+        public Integer showCollect(@Param("u_id") String u_id,@Param("q_id") String q_id);-->
+    <select id="showCollect" resultType="Integer">
+        select collect from Z_user_Question where u_id=#{u_id} and q_id=#{q_id}
+    </select>
+
+    <!--    //添加新的连接对象
+        public void insertUserAndQuestion(Z_user_Question zq);-->
+    <insert id="insertUserAndQuestion" parameterType="Z_user_Question">
+        insert into Z_user_Question values (#{uq_id},#{u_id},#{q_id},#{likes},#{collect})
+    </insert>
+
+</mapper>
